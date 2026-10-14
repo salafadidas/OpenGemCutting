@@ -6,7 +6,7 @@ import { CONCEPTS, FORMATS, formatById } from '../domain/formats/capabilities.js
 import { readFormatFile, inspectProjectSource, planTargets, targetsFor } from '../application/formatCenter.js';
 import { downloadBlob } from '../utils/download.js';
 import { LanguageSelector } from './LanguageSelector.jsx';
-import { RepositoryLink } from './RepositoryLink.jsx';
+import { TechnicalSupportButton } from './TechnicalSupport.jsx';
 import { TechnicalPreview } from './TechnicalPreview.jsx';
 import './workspace-pages.css';
 import './labs.css';
@@ -197,7 +197,7 @@ export function FormatCenterPage({ document: projectDocument, hasPreview, intent
   return <main className="workspace-lab workspace-formats">
     <header className="lab-topbar"><button className="workspace-page-brand" onClick={onHome} aria-label={t('返回主页')}><img src={`${import.meta.env.BASE_URL}brand/logo-header.webp`} alt="" /><span><strong>{t('切磨工作台')} <small>{APP_VERSION}</small></strong><em>SUVA · FACET 96</em></span></button>
       <nav className="lab-navigation" aria-label={t('工作区导航')}><button className="workspace-page-button" onClick={onHome}><IconHome size={16} />{t('主页')}</button>{projectDocument ? <button className="workspace-page-button" onClick={onEditor}><IconArrowLeft size={16} />{t('返回编辑')}</button> : null}</nav>
-      <div className="lab-topbar-actions"><LanguageSelector /><RepositoryLink /></div></header>
+      <div className="lab-topbar-actions"><LanguageSelector /><TechnicalSupportButton /></div></header>
     <div className="lab-layout"><div className="formats-content">
       <div className="labs-heading"><div><span className="lab-eyebrow">FORMAT CENTER</span><h1>{t('格式中心')}</h1><p>{t('打开 GemCAD、Gem Cut Studio 的设计，或把当前设计交给其他软件。转换前先看清会保留什么、会少什么。')}</p></div><span className="labs-phase">{t('GemCAD · Gem Cut Studio · 本软件')}</span></div>
 

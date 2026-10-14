@@ -9,7 +9,7 @@ import { LanguageSelector } from './LanguageSelector.jsx';
 import { Modal } from './Modal.jsx';
 import { APP_VERSION } from '../version.js';
 import { IconArrowLeft, IconArrowRight, IconClock, IconHome, IconLayersIntersect, IconRosette, IconDiamond, IconCheck, IconInfoCircle, IconPlus, IconFolder } from '@tabler/icons-react';
-import { RepositoryLink } from './RepositoryLink.jsx';
+import { TechnicalSupportButton } from './TechnicalSupport.jsx';
 import './workspace-pages.css';
 import './labs.css';
 
@@ -81,7 +81,7 @@ export function LabsPage({ document: sourceDocument, hasPreview, prepareSource, 
   }
   return <main className={`workspace-lab ${current ? 'has-native-lab' : ''}`}>
     <header className="lab-topbar"><button className="workspace-page-brand" onClick={() => navigate('home')} aria-label={t('返回主页')}><img src={`${import.meta.env.BASE_URL}brand/logo-header.webp`} alt=""/><span><strong>{t('切磨工作台')} <small>{APP_VERSION}</small></strong><em>SUVA · FACET 96</em></span></button>
-      <nav className="lab-navigation" aria-label={t('工作区导航')}><button className="workspace-page-button" onClick={() => navigate('home')}><IconHome size={16}/>{t('主页')}</button>{source ? <button className="workspace-page-button" onClick={() => navigate('editor')}><IconArrowLeft size={16}/>{t('返回编辑')}</button> : null}</nav><div ref={setHeaderSlot} className="labs-header-slot"/><div className="lab-topbar-actions"><LanguageSelector/><RepositoryLink/></div></header>
+      <nav className="lab-navigation" aria-label={t('工作区导航')}><button className="workspace-page-button" onClick={() => navigate('home')}><IconHome size={16}/>{t('主页')}</button>{source ? <button className="workspace-page-button" onClick={() => navigate('editor')}><IconArrowLeft size={16}/>{t('返回编辑')}</button> : null}</nav><div ref={setHeaderSlot} className="labs-header-slot"/><div className="lab-topbar-actions"><LanguageSelector/><TechnicalSupportButton/></div></header>
     {current ? <LabWorkspaceHost ref={workspace} {...current} headerSlot={headerSlot} drafts={drafts} readProject={readProject} createProject={createProject} onLeave={leave} onReturned={onReturned}/> : <div className="lab-layout"><div className="labs-content">
       {error ? <div className="labs-error" role="alert">{t(error)}</div> : null}
       <div className="labs-heading"><div><span className="lab-eyebrow">FACET LABS</span><h1>{t('实验室')}</h1><p>{t('选择一个实验室，开始新的探索。')}</p></div><span className="labs-phase"><IconInfoCircle size={19}/>{t('独立实验，检查后另存新项目。')}</span></div>

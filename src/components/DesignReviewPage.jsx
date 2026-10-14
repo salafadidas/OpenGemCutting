@@ -10,7 +10,7 @@ import { projectTechnicalPreview } from "../domain/technicalPreview.js";
 import { downloadBlob } from "../utils/download.js";
 import { safeFileStem } from "../utils/format.js";
 import { LanguageSelector } from "./LanguageSelector.jsx";
-import { RepositoryLink } from "./RepositoryLink.jsx";
+import { TechnicalSupportButton } from "./TechnicalSupport.jsx";
 import "./DesignReviewPage.css";
 
 const views = {top:"顶视",bottom:"底视",side:"侧视",isometric:"轴测"};
@@ -52,7 +52,7 @@ export function DesignReviewPage({ manifestPath }) {
   },[manifestPath]);
   const home=import.meta.env.BASE_URL;
   return <main className="design-review-page">
-    <header className="review-header"><a className="review-brand" href={home}><img src={`${home}brand/logo-header.webp`} alt=""/><span><strong>{t("切磨工作台")}</strong><small>SUVA · FACET 96</small></span></a><nav><a href={home}><IconArrowLeft size={16}/>{t("返回工作台")}</a><LanguageSelector/><RepositoryLink/></nav></header>
+    <header className="review-header"><a className="review-brand" href={home}><img src={`${home}brand/logo-header.webp`} alt=""/><span><strong>{t("切磨工作台")}</strong><small>SUVA · FACET 96</small></span></a><nav><a href={home}><IconArrowLeft size={16}/>{t("返回工作台")}</a><LanguageSelector/><TechnicalSupportButton/></nav></header>
     {error?<section className="review-error" role="alert"><h1>{t("无法打开试作")}</h1><p>{t(error)}</p><a href={home}>{t("返回工作台")}</a></section>:!data?<p className="review-loading" role="status">{t("正在读取试作与真实几何…")}</p>:<>
       <section className="review-heading"><div><span className="review-eyebrow">{t("DESIGN STUDY / 琢型试作")}</span><h1>{data.document.name}</h1><p>{data.intent || t("对照参考，检查每一圈面棱与造型比例。")}</p></div><button className="review-download" onClick={()=>downloadBlob(new Blob([exportFacetingJSON(data.document)],{type:"application/json"}),`${safeFileStem(data.document.name)}.json`)}><IconDownload size={18}/>{t("下载可编辑 JSON")}</button></section>
       <section className="review-summary" aria-label={t("试作概要")}><span><b>{t(data.solid.faces.filter(f=>data.document.facets.some(g=>g.id===(f.facetId??f.id))).length)}</b> {t("表面片")}</span><span><b>{data.stages.length}</b> {t("参数组")}</span><span><b>{t(data.stages.filter(s=>s.construction?.status==="valid").length)}</b> {t("有效 Meet 组")}</span><span className="review-status">{t("试作 · 待设计师判断")}</span></section>

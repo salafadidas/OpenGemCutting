@@ -16,7 +16,7 @@ Installation instructions are in the [Companion lifecycle guide](../plugins/open
 - Bug 请提供最小复现、浏览器/系统信息、期望与实际结果；涉及几何时附上可公开的 JSON。
 - 新功能请先描述切磨场景、操作流程和可验收结果，再讨论实现。
 - 安全问题或疑似凭据泄露不要放进公开 Issue，按 `.github/SECURITY.md` 私下报告。
-- 本分支为未发布许可迁移候选，见 [许可范围](../docs/legal/LICENSING.md)。既有贡献继续保留原许可；新受限代码请先取得针对准确代码范围的书面贡献许可，不因提交自动推定版权转让或重新授权。
+- 自 v2.1.1 起采用新的许可范围，见 [许可范围](../docs/legal/LICENSING.md)。既有贡献继续保留原许可；新受限代码请先取得针对准确代码范围的书面贡献许可，不因提交自动推定版权转让或重新授权。
 - Reports and original descriptions remain welcome. Before publishing new restricted project code, obtain written permission covering the exact contribution and the maintainer’s right to distribute it under the proposed project license. Earlier MIT grants remain valid.
 
 ## Pull request workflow
@@ -41,3 +41,13 @@ Companion 只会将这些步骤变成对话式流程，不改变 GitHub 的 Fork
 ## Commit and PR notes
 
 提交信息建议使用简短祈使句。PR 需要说明：用户可见结果、动机、验证、视觉证据（如适用）以及有意不处理的范围。参与即表示同意遵守 `.github/CODE_OF_CONDUCT.md`。
+
+## 技术支持与反馈
+
+官方团队：**SUVA / 地质大学博士说AI / 苏哇科技**。工作台顶部“技术支持”可查看团队介绍、使用许可和测试群二维码（余博士开源技术群）。[打开技术支持](https://yuyou-dev.github.io/OpenGemCutting/#support)。
+
+- 遇到故障：[提交 Issue](https://github.com/yuyou-dev/OpenGemCutting/issues/new?template=bug_report.yml)，提供复现步骤、期望和实际结果。可从“反馈与技术支持”查看并复制诊断信息；不会自动上传设计文件。
+- 操作疑问或改进想法：[在 Discussions 发帖](https://github.com/yuyou-dev/OpenGemCutting/discussions)，说明想完成的切型设计任务及障碍。
+- 安全漏洞或敏感信息：按 [安全报告说明](SECURITY.md) 私下报告，不放入公开 Issue。
+
+Issue 和 Discussions 发帖需要 GitHub 账号。仅附你愿意公开的内容；软件贡献须符合上面的许可边界。
