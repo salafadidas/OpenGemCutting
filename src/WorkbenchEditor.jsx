@@ -34,7 +34,7 @@ import { indexExportSummary } from "./domain/indexing.js";
 import { physicalMeasures } from "./domain/physicalScale.js";
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { IconHistory, IconHome, IconFlask } from "@tabler/icons-react";
-import { RepositoryLink } from "./components/RepositoryLink.jsx";
+import { TechnicalSupportButton } from "./components/TechnicalSupport.jsx";
 import { Header } from "./components/Header.jsx";
 import { GemViewport } from "./components/GemViewport.jsx";
 import { OpticsViewSwitch } from "./components/OpticsViewSwitch.jsx";
@@ -1560,7 +1560,7 @@ export function WorkbenchEditor({ initialDocument, designControllerRef, projectI
             <button onClick={onHome}><IconHome size={15} stroke={1.6} /><span>{t("项目主页")}</span></button>
             <button onClick={onLab}><IconFlask size={15} stroke={1.6} /><span>{t("实验室")}</span></button>
           </nav>
-          <LanguageSelector /><RepositoryLink />
+          <LanguageSelector /><TechnicalSupportButton />
         </div>
           {cuttingAssistantActive && cuttingReplay ? (
             <CuttingAssistantBar name={document.name} onExit={() => changeViewportMode("edit")} />

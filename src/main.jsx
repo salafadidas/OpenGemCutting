@@ -5,6 +5,7 @@ import "@fontsource-variable/noto-sans-sc";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import { DesignReviewPage } from "./components/DesignReviewPage.jsx";
+import { TechnicalSupportProvider } from "./components/TechnicalSupport.jsx";
 import { App } from "./App.jsx";
 import "./styles.css";
 
@@ -13,7 +14,7 @@ const updatePageLanguage = () => { document.documentElement.lang = getLocale(); 
 subscribeLocale(updatePageLanguage);
 updatePageLanguage();
 const reviewPath = new URLSearchParams(window.location.search).get("review");
-createRoot(document.getElementById("root")).render(<RenderBoundary>{reviewPath ? <DesignReviewPage manifestPath={reviewPath} /> : <App />}</RenderBoundary>);
+createRoot(document.getElementById("root")).render(<TechnicalSupportProvider><RenderBoundary>{reviewPath ? <DesignReviewPage manifestPath={reviewPath} /> : <App />}</RenderBoundary></TechnicalSupportProvider>);
 
 const bootScreen = document.getElementById("boot-screen");
 if (bootScreen) {

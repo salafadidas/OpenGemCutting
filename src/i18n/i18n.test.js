@@ -83,7 +83,7 @@ test('composite tool library and manual have complete English text', async () =>
   visit(COMPOSITE_CATEGORIES);
   visit(COMPOSITE_TOOLS);
   visit(manualPages);
-  for (const file of ['../components/HelpCenterDialog.jsx', '../components/ToolInspector.jsx', '../components/QuickOpticsPreview.jsx', '../components/CuttingAssistantBar.jsx']) {
+  for (const file of ['../components/TechnicalSupport.jsx', '../components/TechnicalSupportDialog.jsx', '../components/HelpCenterDialog.jsx', '../components/ToolInspector.jsx', '../components/QuickOpticsPreview.jsx', '../components/CuttingAssistantBar.jsx']) {
     for (const match of readFileSync(new URL(file, import.meta.url), 'utf8').matchAll(/(["'])([^"'\n]*[\u3400-\u9fff][^"'\n]*)\1/g)) visit(match[2]);
   }
 });

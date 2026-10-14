@@ -1,3 +1,4 @@
+import { useTechnicalSupport } from "./TechnicalSupport.jsx";
 import { getLocale, t } from '../i18n/locale.js';
 import { useRef, useState } from "react";
 import { useDialogFocus } from "./useDialogFocus.js";
@@ -88,7 +89,7 @@ const HELP_SECTIONS = [
     intro: "选点前先旋转宝石，让目标棱或顶点清楚可见。粉色切面边框、圆环与机械臂是操作辅助，不是宝石的真实棱。",
     facts: [
       ["同时看冠亭与侧面", "画布下方信息栏的“正交预览”并排显示冠部顶视、亭部底视与侧视，同步当前真实或预览造型；切换页签或收起信息栏不会旋转中央画布或修改切割。正交视图适合核对轮廓、刻面分布与冠亭比例。"],
-      ["返回项目与反馈", "浮动菜单可点击外部或按 Esc 关闭。顶部可返回项目主页或进入实验室。“GitHub 仓库”始终保留，三个页面和光学仿真均可使用；点击在新标签页打开 OpenGemCutting，当前设计留在原页。"],
+      ["返回项目与反馈", "浮动菜单可点击外部或按 Esc 关闭。顶部“技术支持”提供官方团队、测试群、GitHub 仓库、问题反馈与许可说明；外部链接在新标签页打开，当前设计留在原页。"],
       ["对话创作与手动续改", "可选本地 MCP 把对话连接到当前项目。打开对话工具返回的工作台链接，顶部显示连接状态；先比较方案的真实四视图，再提交。修改可一步撤销，原有参数编辑和保存继续可用。当前有手动草稿时，先保存或放弃再继续对话构造。“断开 AI 连接”只关闭对话；普通静态网页不需要 Codex、MCP 或 API Key。跨端口请用 JSON 归档。"],
       ["从参考图试作", "可在 Codex 工作台项目中使用 facet-parametric-design，附上参考图与比例要求。试作页用同一保存实体对照顶/底/侧/轴测，下载 JSON 后在新项目导入并继续调整。没有 Codex 也可以独立使用工作台。"],
       ["逐步观看切割过程", "画布左上模式切换组 → 切割助手。用画布底部播放条的“下一步 / 上一步”逐刀观看已提交设计的切割，或用“下一组 / 上一组”按图层跳转；点击或拖动进度条可到任意进度；中央播放键自动逐刀演示，支持 0.5× / 1× / 2×，手动步进和切到后台会暂停。右侧仪表显示下一刀的分度、行业角、深度与本组刀序。磨砂面显示“磨砂切割 · 无需抛光”，只提醒表面处理，不增加刀数。切完保留原视角 0.5 秒，再转向下一刀；停稳后才显示粉色平面。跟随当前面以侧偏 45° 斜向观察，可调转场速度；拖动画布会暂停跟随，可用开关恢复。平切完成后，按顺序演示已启用的凹切图层；每层全部重复刀具合为一步，并显示“整组加工”。第 0 步是未加工毛坯，粉色平面只提示下一次平切。助手只读，不会改动设计或当前 CUT。"],
@@ -148,6 +149,7 @@ function HelpContent({ section }) {
 }
 
 export function HelpCenterDialog({ onClose }) {
+  const { openSupport } = useTechnicalSupport();
   const [activeId, setActiveId] = useState("start");
   const panelRef = useRef(null);
   const activeSection = HELP_SECTIONS.find((section) => section.id === activeId) ?? HELP_SECTIONS[0];
@@ -201,7 +203,7 @@ export function HelpCenterDialog({ onClose }) {
           <HelpContent section={activeSection} />
         </div>
 
-        <footer className="help-dialog__footer">
+        <footer className="help-dialog__footer"><button type="button" className="support-text-button" onClick={() => { onClose(); openSupport("feedback"); }}>{t("遇到问题？反馈与技术支持")}</button>
           <div><IconBook2 size={16} stroke={1.7} /><span><strong>{t("完整操作手册")}</strong><small>{t("A4 PDF · 设计案例与前后对比 · 可打印")}</small></span></div>
           <a className="secondary-button help-manual-link" href={manualUrl} download>
             <IconDownload size={15} stroke={1.8} />{t("下载 PDF")} </a>

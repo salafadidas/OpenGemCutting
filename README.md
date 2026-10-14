@@ -4,6 +4,12 @@
 
 # OpenGemCutting
 
+**官方团队：SUVA / 地质大学博士说AI / 苏哇科技**
+
+[技术支持与测试群](https://yuyou-dev.github.io/OpenGemCutting/#support) · [报告问题](https://github.com/yuyou-dev/OpenGemCutting/issues/new?template=bug_report.yml) · [交流想法](https://github.com/yuyou-dev/OpenGemCutting/discussions) · [源码与使用许可](docs/legal/LICENSING.md)
+
+<sub>遇到问题或有设计想法，欢迎反馈。软件内各页顶部的“技术支持”提供团队介绍、测试群与诊断信息；扫码加入文末的余博士开源技术群。无需离开当前设计，反馈由你选择提交。</sub>
+
 ### 从一句想法，到一颗可编辑的宝石。
 
 **多分度参数化琢型工作台 · 对话创作 · 浏览器本地运行**
@@ -12,7 +18,7 @@ A source-available gemstone faceting workbench. Design through conversation, ref
 
 > **v2.1.1 许可迁移 / Licensing transition:** 新原创内容限个人非商业自用，禁止商用与二次分发；包括接单设计及商业生产。旧版 MIT 授权和第三方许可继续有效，公共 GitHub 的站内 fork 权利保留。New original material first released under the new license is for personal non-commercial use only, without redistribution. Earlier MIT grants and third-party licenses remain valid. See [许可范围 / Licensing scope](docs/legal/LICENSING.md).
 
-[![Version](https://img.shields.io/badge/version-2.1.0-ed225d?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.3-ed225d?style=flat-square)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-Personal%20Noncommercial-222222?style=flat-square)](LICENSE)
 [![Browser](https://img.shields.io/badge/browser-local_first-38755d?style=flat-square)](#start)
 
@@ -53,7 +59,7 @@ A source-available gemstone faceting workbench. Design through conversation, ref
 
 新增复合刀具与统一切割操作区；凹切先预览、确认后入序列；快捷光学默认台面并在松手后渲染；助手先平切再逐层凹切；图案实验默认关闭磨砂细边。MCP 补齐 18 把圈层／花式刀具的创建和参数编辑。中英文操作手册与依赖安全补丁同步更新。
 
-Local candidate, not yet published. This update adds composite tools and unified cut controls, explicit concave-cut confirmation, a release-to-render optical preview, planar-then-concave playback, and opt-in frosted borders in the pattern lab. Bilingual manuals and dependency security patches are included. See [changes](CHANGELOG.md) and [validation](docs/validation.md).
+Released as v2.1.0. This update adds composite tools and unified cut controls, explicit concave-cut confirmation, a release-to-render optical preview, planar-then-concave playback, and opt-in frosted borders in the pattern lab. Bilingual manuals and dependency security patches are included. See [changes](CHANGELOG.md) and [validation](docs/validation.md).
 
 <details>
 <summary><b>2.0 更新 · What's new in 2.0</b>（v2.0.0，汇总 1.0 以来的全部新增）</summary>
@@ -175,7 +181,7 @@ npm run check:mcp      # 加上 MCP 的连接与版本检查
 - **请保留设计文件。** 项目保存在当前浏览器与地址下；更换浏览器、端口或清理浏览器数据不会自动迁移项目。重要设计请导出 JSON。
 - **保留真实原石形状。** 支持闭合 OBJ，保留凹槽、孔和分离组件；导入上限与交换限制见 [文件与设计边界](docs/limits.md)。
 - **仿真帮助比较。** 显示效果不代表实际切磨收益或材料光学等级。实验室的专业界面目前为中文。
-- **2.0 正式版。** 新版本修复项目与实验稿并发保存、补充磨砂面显示，并明确现有 MCP 的支持范围；欢迎按 [Issues](https://github.com/yuyou-dev/OpenGemCutting/issues) 反馈。
+- **当前版本 2.1.3。** 版本记录见 [CHANGELOG](CHANGELOG.md)，欢迎按 [Issues](https://github.com/yuyou-dev/OpenGemCutting/issues) 反馈。
 - **支持按实测说明。** 本机功能已通过设计师验收；跨平台、浏览器与线上状态见 [支持与验收](docs/validation.md)，不以源码版本推断站点已更新。
 
 ## 一起完善这张工作台

@@ -31,7 +31,7 @@
 
 ## 产品与视觉真值
 
-- 视觉、控件、品牌拼写、参考图、常驻 GitHub 入口、帮助、操作手册及聚焦模式布局统一维护在 [design-system.md](docs/architecture/design-system.md)。不得在本文件复制完整细则。
+- 视觉、控件、品牌拼写、参考图、常驻技术支持入口、帮助、操作手册及聚焦模式布局统一维护在 [design-system.md](docs/architecture/design-system.md)。不得在本文件复制完整细则。
 - ASC 的精确源分度保留、统一比例、台面/preform 阻断及导出范围以 [gemcad-asc.md](docs/architecture/gemcad-asc.md) 为准；GemCAD／Gem Cut Studio 的读写、损失说明与读回核对以 [format-center.md](docs/architecture/format-center.md) 为准。禁止静默取整、虚构层、隐瞒信息损失或用凸包绕过 mesh 导出阻断。
 - 预设的收录门槛、策展排除、真实四视图、来源追溯和 `list / load / 可选 save` provider 边界以 [preset-library.md](docs/architecture/preset-library.md) 为准；不得将个人资料存储耦合到内置 catalog，重新生成不得让策展排除项回流。
 - 名称元数据、文档替换、光学与切割助手的挂起/恢复和只读边界以 [state-contract.md](docs/architecture/state-contract.md) 为准。助手用于逐步切割演示，“更多工具”中的逐层试切助理用于 Meet 来源与失效诊断；序列规则唯一真值为 `src/domain/cuttingAssistant.js`。

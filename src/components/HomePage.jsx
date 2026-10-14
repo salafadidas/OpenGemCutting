@@ -7,7 +7,7 @@ import { RenderBoundary } from "./RenderBoundary.jsx";
 import { memo, useMemo, useState } from "react";
 import { IconArrowRight, IconArrowsExchange, IconChevronDown, IconChevronUp, IconDots, IconFlask, IconPlus, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
 import { evaluateDocument } from "../domain/documentGeometry.js";
-import { RepositoryLink } from "./RepositoryLink.jsx";
+import { TechnicalSupportButton } from "./TechnicalSupport.jsx";
 import { TechnicalPreview } from "./TechnicalPreview.jsx";
 import "./workspace-pages.css";
 
@@ -51,7 +51,7 @@ export function HomePage({ projects, activeProjectId, onOpenProject, onNewProjec
         <span className="workspace-product-mark">SUVA <span>／</span> FACET 96</span>
         <div className="home-topbar-actions">
           <span className="home-local-label">{t("此浏览器的项目")} <b>{projects.length}</b></span>
-          <LanguageSelector /><RepositoryLink />
+          <LanguageSelector /><TechnicalSupportButton />
           <details data-floating-menu className="workspace-page-tools">
             <summary aria-label={t("更多工具")}><IconDots size={18} stroke={1.6} /></summary>
             <div className="workspace-page-tools-menu"><button type="button" onClick={(event) => { event.currentTarget.closest("details").open = false; onOpenHelp(); }}>{t("帮助中心")}</button></div>
@@ -95,6 +95,7 @@ export function HomePage({ projects, activeProjectId, onOpenProject, onNewProjec
               {words.length > 0 && <button type="button" className="workspace-page-button" onClick={() => setQuery("")}>{t("清除搜索")}</button>}
             </div>}
         </div>
+        <div className="home-support-note"><span>SUVA · 地质大学博士说AI · 苏哇科技</span><span>{t("遇到问题或有想法？欢迎帮助我们改进工作台。")}</span><TechnicalSupportButton section="feedback" label="反馈与技术支持" /></div>
         <p className="home-storage-note">{t("项目保存在此浏览器。重要设计请在文件菜单中导出 JSON 留存。")}</p>
       </section>
     </main>

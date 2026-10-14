@@ -18,6 +18,7 @@ import { assertValidDocumentGeometry } from "./domain/documentGeometry.js";
 import { HomePage } from "./components/HomePage.jsx";
 import { LabsPage } from "./components/LabsPage.jsx";
 import { FormatCenterPage } from "./components/FormatCenterPage.jsx";
+import { useTechnicalSupport } from "./components/TechnicalSupport.jsx";
 import { HelpCenterDialog } from "./components/HelpCenterDialog.jsx";
 import { NewProjectDialog } from "./components/NewProjectDialog.jsx";
 import { CrystalImportDialog } from "./components/CrystalImportDialog.jsx";
@@ -38,6 +39,7 @@ function ProjectStorageProgress({ opening = false }) {
 
 export function App() {
   useLocale();
+  const { isSupportOpen } = useTechnicalSupport();
   useDismissFloatingMenus();
   const designControllerRef = useRef(null);
   const designLibrary = useRef(null);
@@ -289,7 +291,7 @@ export function App() {
     ? { ...record, document: latestDocument } : record);
   const projectError = projects.error || (projects.unreadableCount ? `${projects.unreadableCount} 份本地设计暂时无法读取，原记录仍保留。` : "");
 
-  liveApp.current = { active, page, hasPreview, pendingDelete, pendingSwitch, confirmReload, helpOpen, crystalImportOpen, newProjectOpen, presetLibraryOpen };
+  liveApp.current = { active, page, hasPreview, pendingDelete, pendingSwitch, confirmReload, helpOpen, isSupportOpen, crystalImportOpen, newProjectOpen, presetLibraryOpen };
   const bridge = useDesignBridge(async (name, args, request) => {
     validateTool(name, args);
     if (name === 'preset_list') {
@@ -302,11 +304,11 @@ export function App() {
     if (name === 'design_read' && !active) return { apiVersion: DESIGN_API_VERSION, projectId: 'none', revision: 'home', locale: getLocale(), canWrite: false, blockedReason: t('请先创建或打开一个设计项目。') };
     if (name === 'project_create') {
       const current = liveApp.current;
-      const getStamp = () => { const state = liveApp.current; return JSON.stringify([state.active?.id, state.active?.mountSeq, state.page, state.hasPreview, Boolean(state.pendingSwitch), Boolean(state.pendingDelete), state.confirmReload, state.helpOpen, state.crystalImportOpen, state.newProjectOpen, state.presetLibraryOpen]); };
+      const getStamp = () => { const state = liveApp.current; return JSON.stringify([state.active?.id, state.active?.mountSeq, state.page, state.hasPreview, Boolean(state.pendingSwitch), Boolean(state.pendingDelete), state.confirmReload, state.helpOpen, state.isSupportOpen, state.crystalImportOpen, state.newProjectOpen, state.presetLibraryOpen]); };
       const stamp = getStamp();
       const initialState = designControllerRef.current?.read() ?? { projectId: 'none', revision: 'home' };
       if (args.projectId !== initialState.projectId || args.revision !== initialState.revision) throw designError('STALE_REVISION', '当前项目已变化，请重新读取。');
-      if (current.page === 'lab' || current.hasPreview || current.pendingDelete || current.pendingSwitch || current.confirmReload || current.helpOpen || current.crystalImportOpen || current.newProjectOpen || current.presetLibraryOpen || designControllerRef.current?.read().sessionMode && designControllerRef.current.read().sessionMode !== 'idle') throw designError('WORKSPACE_BUSY', '请先在网页结束当前操作，再创建对话设计项目。');
+      if (current.page === 'lab' || current.hasPreview || current.pendingDelete || current.pendingSwitch || current.confirmReload || current.helpOpen || current.isSupportOpen || current.crystalImportOpen || current.newProjectOpen || current.presetLibraryOpen || designControllerRef.current?.read().sessionMode && designControllerRef.current.read().sessionMode !== 'idle') throw designError('WORKSPACE_BUSY', '请先在网页结束当前操作，再创建对话设计项目。');
       const revision = designControllerRef.current?.read().revision;
       const document = await projectDesign(args, designLibrary.current);
       if (stamp !== getStamp() || revision !== designControllerRef.current?.read().revision) throw designError('STALE_REVISION', '载入期间页面或项目已变化，请重试。');
@@ -337,7 +339,7 @@ export function App() {
       {page === "editor" && projects.error && !["error", "conflict"].includes(saveStatus.state) ? <div className="project-save-error" role="alert"><p>{t(projects.error)}</p><button onClick={exportCurrent}>{t("导出 JSON")}</button><button onClick={() => navigate("home")}>{t("管理本地项目")}</button></div> : null}
       {bridge.enabled ? <div className="design-connection" role="status"><strong>{bridge.status === 'connected' ? t("对话设计已连接") : bridge.status === 'connecting' ? t("正在连接对话设计") : t("对话设计已断开")}</strong><span>{bridge.status === 'connected' ? t("AI 操作当前项目；每个方案均可撤销，手动编辑始终可用。") : t("手动设计、撤销和保存仍然可用。")}</span>{bridge.status !== 'off' ? <button onClick={bridge.disconnect}>{t("断开 AI 连接")}</button> : null}</div> : null}
       {page === "home" ? <HomePage projects={projectList} activeProjectId={active?.id} onOpenProject={openProject} onNewProject={createProject} onDeleteProject={requestDeleteProject} onOpenLab={() => navigate("lab")} onOpenFormats={() => openFormats(null)} onResume={() => setPage("editor")} error={projectError} notice={projects.notice} onRetry={projects.refresh} onOpenHelp={() => setHelpOpen(true)} /> : null}
-      {active ? <RenderBoundary key={`${active.id}:${active.mountSeq ?? 0}`} hidden={page !== "editor"} onRetry={() => { setHasPreview(false); setActive(current => ({ ...current, document: latestDocument ?? current.document, startWithDraft: false, mountSeq: ++editorSeq.current })); }} onExport={exportCurrent} onHome={() => navigate("home")}><WorkbenchEditor designControllerRef={designControllerRef} projectId={active.id} initialDocument={active.document} startWithDraft={active.startWithDraft} visible={page === "editor"} interactionPaused={openingProject || projects.creating || Boolean(pendingSwitch) || confirmReload || helpOpen || crystalImportOpen || newProjectOpen || presetLibraryOpen} onDocumentChange={receiveDocument} onPreviewChange={setHasPreview} onHome={() => navigate("home")} onLab={() => navigate("lab")} onFormats={openFormats} onNewProject={createProject} onOpenDocument={importCrystal} onImportCrystal={() => { setCrystalReturnToNew(false); setCrystalImportOpen(true); }} projectStatus={saveStatus} /></RenderBoundary> : null}
+      {active ? <RenderBoundary key={`${active.id}:${active.mountSeq ?? 0}`} hidden={page !== "editor"} onRetry={() => { setHasPreview(false); setActive(current => ({ ...current, document: latestDocument ?? current.document, startWithDraft: false, mountSeq: ++editorSeq.current })); }} onExport={exportCurrent} onHome={() => navigate("home")}><WorkbenchEditor designControllerRef={designControllerRef} projectId={active.id} initialDocument={active.document} startWithDraft={active.startWithDraft} visible={page === "editor"} interactionPaused={openingProject || projects.creating || Boolean(pendingSwitch) || confirmReload || helpOpen || isSupportOpen || crystalImportOpen || newProjectOpen || presetLibraryOpen} onDocumentChange={receiveDocument} onPreviewChange={setHasPreview} onHome={() => navigate("home")} onLab={() => navigate("lab")} onFormats={openFormats} onNewProject={createProject} onOpenDocument={importCrystal} onImportCrystal={() => { setCrystalReturnToNew(false); setCrystalImportOpen(true); }} projectStatus={saveStatus} /></RenderBoundary> : null}
       {page === "formats" ? <FormatCenterPage document={active ? latestDocument : null} hasPreview={hasPreview} intent={formatIntent} onOpenDocument={importCrystal} onHome={() => navigate("home")} onEditor={() => setPage("editor")} /> : null}
       {page === "lab" ? <LabsPage document={latestDocument} hasPreview={hasPreview} prepareSource={prepareLabSource} peekProject={projects.peek} readProject={projects.read} createProject={projects.create} onReturned={activate} onHome={() => navigate("home")} onEditor={() => setPage("editor")} /> : null}
       {page !== "lab" && saveStatus.state === "error" ? <div className="project-save-error" role="alert"><div><strong>{t("项目尚未保存")}</strong><p>{t(saveStatus.code === "PROJECT_DELETED" ? saveStatus.message : projects.error || saveStatus.message)}</p></div><button onClick={flush}>{t("重试保存")}</button>{saveStatus.code === "PROJECT_DELETED" ? <button onClick={() => saveAsNewProject()}>{t("另存为新项目")}</button> : null}<button onClick={exportCurrent}>{t("导出 JSON")}</button><button onClick={() => navigate("home")}>{t("管理本地项目")}</button></div> : null}
