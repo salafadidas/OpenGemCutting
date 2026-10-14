@@ -1,9 +1,9 @@
 {
   "name": "opengemcutting",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": true,
   "description": "A browser-based parametric gemstone faceting workbench for the 96-index system.",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "author": "yuyou-dev",
   "repository": {
     "type": "git",

@@ -8,10 +8,12 @@
 
 **多分度参数化琢型工作台 · 对话创作 · 浏览器本地运行**
 
-An open-source gemstone faceting workbench. Design through conversation, refine every cut.
+A source-available gemstone faceting workbench. Design through conversation, refine every cut.
+
+> **v2.1.1 许可迁移 / Licensing transition:** 新原创内容限个人非商业自用，禁止商用与二次分发；包括接单设计及商业生产。旧版 MIT 授权和第三方许可继续有效，公共 GitHub 的站内 fork 权利保留。New original material first released under the new license is for personal non-commercial use only, without redistribution. Earlier MIT grants and third-party licenses remain valid. See [许可范围 / Licensing scope](docs/legal/LICENSING.md).
 
 [![Version](https://img.shields.io/badge/version-2.1.0-ed225d?style=flat-square)](CHANGELOG.md)
-[![License](https://img.shields.io/badge/license-MIT-222222?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/badge/license-Personal%20Noncommercial-222222?style=flat-square)](LICENSE)
 [![Browser](https://img.shields.io/badge/browser-local_first-38755d?style=flat-square)](#start)
 
 **[立即体验 ↗](https://yuyou-dev.github.io/OpenGemCutting/)**　·　**[用 Codex 创作](#install)**　·　[中文手册](public/manual/facet-96-operation-manual.pdf) · [English manual](public/manual/facet-96-operation-manual-en.pdf)　·　[参与贡献](.github/CONTRIBUTING.md)
@@ -197,6 +199,6 @@ npm run check:mcp      # 加上 MCP 的连接与版本检查
 
 **OpenGemCutting** · SUVA / Facet 96
 
-[MIT License](LICENSE) · [第三方来源](docs/legal/THIRD_PARTY_NOTICES.md) · [品牌说明](docs/legal/TRADEMARKS.md) · [更新记录](CHANGELOG.md)
+[Personal Non-Commercial License](LICENSE) · [第三方来源](docs/legal/THIRD_PARTY_NOTICES.md) · [品牌说明](docs/legal/TRADEMARKS.md) · [更新记录](CHANGELOG.md)
 
 </div>

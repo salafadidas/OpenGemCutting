@@ -8,12 +8,12 @@
   },
   "homepage": "https://github.com/yuyou-dev/OpenGemCutting",
   "repository": "https://github.com/yuyou-dev/OpenGemCutting",
-  "license": "MIT",
+  "license": "LicenseRef-OpenGemCutting-Personal-1.0",
   "keywords": [
     "opengemcutting",
     "gemstone",
     "faceting",
-    "open-source",
+    "source-available",
     "contributing"
   ],
   "skills": "./skills/",
