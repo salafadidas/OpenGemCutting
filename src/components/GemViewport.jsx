@@ -1,7 +1,8 @@
+import { drawScreenStrokes as drawScreenSegmentBatch } from './screenSegmentRenderer.js';
 import { drawConcaveTools, releaseConcaveToolMeshes } from './concaveToolRenderer.js';
 import { expandConcaveCuts } from '../domain/concaveCuts.js';
 import { createRoundCutter } from '../domain/mesh/boolean.js';
-import { faceColor } from "./faceColor.js";
+import { drawPolyhedron, releasePolyhedronMeshes, lineMesh, transformPoint } from "./polyhedronRenderer.js";
 import { t, subscribeLocale } from '../i18n/locale.js';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
@@ -220,10 +221,6 @@ function resetCamera(camera, mode) {
   camera.targetPanY = 8;
 }
 
-function transformPoint(point, sceneScale) {
-  return [point[0] * sceneScale, -point[2] * sceneScale, point[1] * sceneScale];
-}
-
 function p5Vertex(p, point, sceneScale) {
   const transformed = transformPoint(point, sceneScale);
   p.vertex(transformed[0], transformed[1], transformed[2]);
@@ -430,16 +427,6 @@ function drawGroupControlPlane(p, gizmo, sceneScale, lineWeight) {
 function edgeKey(a, b) {
   const pointKey = (point) => point.map((value) => value.toFixed(6)).join(",");
   return [pointKey(a), pointKey(b)].sort().join("|");
-}
-
-function viewDepth(point, yaw, pitch) {
-  const [x, y, z] = transformPoint(point, 1);
-  const cosYaw = Math.cos(yaw);
-  const sinYaw = Math.sin(yaw);
-  const yawZ = -sinYaw * x + cosYaw * z;
-  const cosPitch = Math.cos(pitch);
-  const sinPitch = Math.sin(pitch);
-  return sinPitch * y + cosPitch * yawZ;
 }
 
 /* ---------------------------------------------------------------------------
@@ -704,40 +691,15 @@ function overlayDepth(point) {
   return Number.isFinite(point?.ndcZ) ? 400 - point.ndcZ * 1000 : 0;
 }
 
-function drawProjectedScreenSegment(p, start, end) {
-  p.line(
-    start.x - p.width / 2,
-    start.y - p.height / 2,
-    overlayDepth(start),
-    end.x - p.width / 2,
-    end.y - p.height / 2,
-    overlayDepth(end),
-  );
-}
-
-function drawScreenSegmentBatch(p, segments) {
-  let weight = null;
-  let color = null;
-  for (const segment of segments) {
-    if (segment.weight !== weight) {
-      if (weight !== null) p.endShape();
-      weight = segment.weight;
-      p.strokeWeight(weight);
-      p.beginShape(p.LINES);
-    }
-    if (!color || segment.color.some((value, index) => value !== color[index])) {
-      color = segment.color;
-      p.stroke(...color);
-    }
-    for (const point of [segment.start, segment.end]) {
-      p.vertex(point.x - p.width / 2, point.y - p.height / 2, overlayDepth(point));
-    }
+function screenSegmentVertices(p, start, end) {
+  for (const point of [start, end]) {
+    p.vertex(point.x - p.width / 2, point.y - p.height / 2, overlayDepth(point));
   }
-  if (weight !== null) p.endShape();
 }
 
 function drawClippedWorldSegment(p, start, end, projectPoint, isHidden, isInsideSolid, subdivisions = 24) {
   const delta = subtract(end, start);
+  p.beginShape(p.LINES);
   for (let part = 0; part < subdivisions; part += 1) {
     const worldStart = add(start, multiply(delta, part / subdivisions));
     const worldEnd = add(start, multiply(delta, (part + 1) / subdivisions));
@@ -751,8 +713,9 @@ function drawClippedWorldSegment(p, start, end, projectPoint, isHidden, isInside
       || isInsideSolid(add(worldStart, multiply(subtract(worldEnd, worldStart), 0.5)))
       || isHidden(projectedMidpoint)
     ) continue;
-    drawProjectedScreenSegment(p, projectedStart, projectedEnd);
+    screenSegmentVertices(p, projectedStart, projectedEnd);
   }
+  p.endShape();
 }
 
 function drawProjectedWorldSegment(
@@ -765,6 +728,7 @@ function drawProjectedWorldSegment(
   isInsideSilhouette,
   subdivisions = 8,
 ) {
+  p.beginShape(p.LINES);
   for (let part = 0; part < subdivisions; part += 1) {
     const worldStart = add(start, multiply(subtract(end, start), part / subdivisions));
     const worldEnd = add(start, multiply(subtract(end, start), (part + 1) / subdivisions));
@@ -780,8 +744,9 @@ function drawProjectedWorldSegment(
       || isOccluded(projectedMidpoint)
       || isInsideSilhouette(projectedMidpoint)
     ) continue;
-    drawProjectedScreenSegment(p, projectedStart, projectedEnd);
+    screenSegmentVertices(p, projectedStart, projectedEnd);
   }
+  p.endShape();
 }
 
 function pointToSegment2D(x, y, ax, ay, bx, by) {
@@ -1362,24 +1327,23 @@ function drawGroupRotationRing(p, ring, isOccluded) {
   // front while the rear arc remains clipped by the geometric test.
   gl.disable(gl.DEPTH_TEST);
 
+  const ringSegments = [];
   ring.outer.slice(0, -1).forEach((point, index) => {
     const next = ring.outer[index + 1];
     const worldMidpoint = ringPoint(ring.worldCenter, ring.outerRadius, (index + 0.5) * ring.indexTeeth / ring.sampleCount, ring.indexTeeth);
     const projectedMidpoint = ring.projectPoint(worldMidpoint);
     if (!projectedMidpoint || isOccluded(projectedMidpoint)) return;
-    p.stroke(warm[0], warm[1], warm[2], active ? 245 : 180);
-    p.strokeWeight(active ? 1.9 : 1.2);
-    drawProjectedScreenSegment(p, point, next);
+    ringSegments.push({ start: point, end: next, color: [...warm, active ? 245 : 180], weight: active ? 1.9 : 1.2 });
 
   });
   ring.toothPoints.forEach((point, tooth) => {
     if (isOccluded(point)) return;
     const inner = ring.projectRingPoint(ring.innerRadius, tooth);
     const major = tooth % Math.max(1, Math.round(ring.indexTeeth / 8)) === 0;
-    p.stroke(warm[0], warm[1], warm[2], major ? 205 : 105);
-    p.strokeWeight(major ? 1.25 : 0.75);
-    drawProjectedScreenSegment(p, inner, point);
+    ringSegments.push({ start: inner, end: point, color: [...warm, major ? 205 : 105], weight: major ? 1.25 : 0.75 });
   });
+
+  drawScreenSegmentBatch(p, ringSegments);
 
   if (!isOccluded(ring.outerHandle)) {
     const [x, y, z] = toLocal(ring.outerHandle);
@@ -1586,14 +1550,14 @@ function drawPickOverlay(p, scene) {
     p.noFill();
     p.stroke(142, 181, 239, angleArc.locked ? 38 : active ? 150 : 105);
     p.strokeWeight(active ? 9 : 7.5);
-    angleArc.samples.slice(0, -1).forEach((point, index) => {
-      drawProjectedScreenSegment(p, point, angleArc.samples[index + 1]);
-    });
+    drawScreenSegmentBatch(p, angleArc.samples.slice(0, -1).map((point, index) => ({
+      start: point, end: angleArc.samples[index + 1], color: [142, 181, 239, angleArc.locked ? 38 : active ? 150 : 105], weight: active ? 9 : 7.5,
+    })));
     p.stroke(blue[0], blue[1], blue[2], angleArc.locked ? 92 : active ? 255 : 205);
     p.strokeWeight(active ? 2.2 : 1.55);
-    angleArc.samples.slice(0, -1).forEach((point, index) => {
-      drawProjectedScreenSegment(p, point, angleArc.samples[index + 1]);
-    });
+    drawScreenSegmentBatch(p, angleArc.samples.slice(0, -1).map((point, index) => ({
+      start: point, end: angleArc.samples[index + 1], color: [...blue, angleArc.locked ? 92 : active ? 255 : 205], weight: active ? 2.2 : 1.55,
+    })));
 
     for (let angle = 0; angle <= 90; angle += 5) {
       const point = angleArc.samples.find((sample) => sample.angle === angle);
@@ -1940,117 +1904,6 @@ function drawToolHood(p, hood, sceneScale, lineWeight, renderMode) {
   gl.depthMask(true);
 }
 
-const polyhedronRenderCaches = new WeakMap();
-const surfaceCueShaders = new WeakMap();
-
-// Keep the saved surface cue legible under the editor's bright studio lights.
-// One attribute per vertex preserves the existing depth, alpha and face order.
-function surfaceCueShader(p) {
-  if (!surfaceCueShaders.has(p)) surfaceCueShaders.set(p, p.baseMaterialShader().modify({
-    vertexDeclarations: 'in float aSurfaceCue; out float vSurfaceCue; out vec4 vSurfaceColor;',
-    fragmentDeclarations: 'in float vSurfaceCue; in vec4 vSurfaceColor;',
-    'void afterVertex': '() { vSurfaceCue = aSurfaceCue; vSurfaceColor = aVertexColor; }',
-    'vec4 getFinalColor': '(vec4 color, vec2 texCoord) { return vec4(mix(color.rgb, vSurfaceColor.rgb, vSurfaceCue), color.a); }',
-  }));
-  return surfaceCueShaders.get(p);
-}
-
-function releasePolyhedronMeshes(p, cache = polyhedronRenderCaches.get(p)) {
-  if (!cache) return;
-  for (const mesh of [cache.fillMesh, cache.edgeMesh, cache.activeMesh]) {
-    if (mesh) p.freeGeometry(mesh);
-  }
-  polyhedronRenderCaches.delete(p);
-}
-
-function lineMesh(p, edges, sceneScale) {
-  const mesh = new p.constructor.Geometry();
-  edges.forEach(([start, end]) => {
-    const index = mesh.vertices.length;
-    mesh.vertices.push(
-      p.createVector(...transformPoint(start, sceneScale)),
-      p.createVector(...transformPoint(end, sceneScale)),
-    );
-    // Separate indices keep the same independent caps as p.line / LINES.
-    mesh.edges.push([index, index + 1]);
-  });
-  return mesh;
-}
-
-function drawPolyhedron(p, geometry, sceneScale, lineWeight, yaw, pitch, renderMode, highlightOperationId, activeOperationId, previewOperationId, frostedFaceIds) {
-  const gl = p.drawingContext;
-  const orderedFaces = geometry.faces
-    .map(face => ({ face, depth: viewDepth(face.center, yaw, pitch) }))
-    .sort((a, b) => a.depth - b.depth)
-    .map(entry => entry.face);
-  let cache = polyhedronRenderCaches.get(p);
-  if (!cache || cache.geometry !== geometry || cache.sceneScale !== sceneScale) {
-    releasePolyhedronMeshes(p, cache);
-    cache = { geometry, sceneScale, edgeMesh: lineMesh(p, geometry.edges, sceneScale), faceVertices: new Map() };
-    polyhedronRenderCaches.set(p, cache);
-  }
-  const colors = [renderMode, highlightOperationId, activeOperationId, previewOperationId, frostedFaceIds];
-  if (!cache.fillMesh || colors.some((value, index) => value !== cache.colors[index])
-    || orderedFaces.some((face, index) => face !== cache.orderedFaces[index])) {
-    if (cache.fillMesh) p.freeGeometry(cache.fillMesh);
-    const mesh = new p.constructor.Geometry();
-    orderedFaces.forEach((face) => {
-      const color = faceColor(face, renderMode, highlightOperationId, activeOperationId, previewOperationId, frostedFaceIds)
-        .map((value) => value / 255);
-      const surfaceCue = frostedFaceIds?.has(face.facetId)
-        && ![highlightOperationId, activeOperationId, previewOperationId].some(id => id && id === face.operationId);
-      let vectors = cache.faceVertices.get(face);
-      if (!vectors) {
-        vectors = { normal: p.createVector(...transformPoint(face.normal, 1)), vertices: face.points.map(point => p.createVector(...transformPoint(point, sceneScale))) };
-        cache.faceVertices.set(face, vectors);
-      }
-      const start = mesh.vertices.length;
-      vectors.vertices.forEach((point) => {
-        mesh.vertices.push(point);
-        mesh.vertexNormals.push(vectors.normal);
-        mesh.vertexColors.push(...color);
-        mesh.vertexProperty('aSurfaceCue', surfaceCue ? 1 : 0);
-      });
-      for (let index = 1; index < face.points.length - 1; index += 1) {
-        mesh.faces.push([start, start + index, start + index + 1]);
-      }
-    });
-    cache.fillMesh = mesh;
-    cache.colors = colors;
-    cache.orderedFaces = orderedFaces;
-  }
-  if (cache.activeOperationId !== activeOperationId) {
-    if (cache.activeMesh) p.freeGeometry(cache.activeMesh);
-    const edges = geometry.kind === "mesh"
-      ? geometry.operationEdges.get(activeOperationId) ?? []
-      : geometry.faces.filter((face) => face.operationId === activeOperationId)
-        .flatMap((face) => face.points.map((point, index) => [point, face.points[(index + 1) % face.points.length]]));
-    cache.activeMesh = activeOperationId && edges.length ? lineMesh(p, edges, sceneScale) : null;
-    cache.activeOperationId = activeOperationId;
-  }
-
-  gl.depthMask(renderMode !== "xray");
-  if (orderedFaces.length) {
-    p.noStroke();
-    p.fill(255);
-    p.push();
-    if (frostedFaceIds?.size) p.shader(surfaceCueShader(p));
-    p.model(cache.fillMesh);
-    p.pop();
-    p.normal(...transformPoint(orderedFaces.at(-1).normal, 1));
-  }
-  gl.depthMask(true);
-  p.noFill();
-  p.stroke(31, 38, 42, renderMode === "xray" ? 112 : 210);
-  p.strokeWeight(lineWeight * (renderMode === "xray" ? 0.85 : 1.1));
-  if (geometry.edges.length) p.model(cache.edgeMesh);
-
-  if (activeOperationId) {
-    p.stroke(238, 36, 96, renderMode === "xray" ? 155 : 235);
-    p.strokeWeight(lineWeight * 1.65);
-    if (cache.activeMesh) p.model(cache.activeMesh);
-  }
-}
 
 function drawAxis(p, bounds, sceneScale, lineWeight, renderMode) {
   const height = Math.max(bounds.span[2], 1);
