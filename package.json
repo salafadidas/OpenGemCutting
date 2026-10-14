@@ -1,6 +1,6 @@
 {
   "name": "opengemcutting",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": true,
   "description": "A browser-based parametric gemstone faceting workbench for the 96-index system.",
   "license": "SEE LICENSE IN LICENSE",
