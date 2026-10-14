@@ -1,10 +1,10 @@
 # 许可范围与迁移说明 / Licensing transition
 
-状态：未发布的许可迁移候选。线上版本和既有授权没有因本地改动而改变。首次发布新条款时，以发布记录中的具体提交与版本确定边界，不把文档日期当作生效日期。本页是说明；正式英文条款见根目录 [LICENSE](../../LICENSE)。
+状态：自 **v2.1.1（2026-10-14）** 起采用本许可迁移方案；准确源码边界以公开 `v2.1.1` 标签所指提交为准。既有 MIT 授权保持有效。本页是说明；正式英文条款见根目录 [LICENSE](../../LICENSE)。
 
 ## 新条款的目标
 
-维护者有权授权、且首次随新条款发布的原创内容采用 **OpenGemCutting Personal Non-Commercial License 1.0**。允许个人非商业自用、学习、自己设备上的运行、备份和私下修改；禁止商用、软件二次分发、公开镜像、打包出售、对外托管及 SaaS/API 服务。公司内部使用、接单设计、设计／加工用于出售的宝石也属于商业使用，须另行取得书面许可。该商业使用口径已由维护者确认；具体发布仍须确认候选提交。
+维护者有权授权、且首次随新条款发布的原创内容采用 **OpenGemCutting Personal Non-Commercial License 1.0**。允许个人非商业自用、学习、自己设备上的运行、备份和私下修改；禁止商用、软件二次分发、公开镜像、打包出售、对外托管及 SaaS/API 服务。公司内部使用、接单设计、设计／加工用于出售的宝石也属于商业使用，须另行取得书面许可。该商业使用口径及本次许可发布已由维护者确认。
 
 使用者仍拥有自己的原创设计和输出；个人非商业分享设计结果不等于分发软件。软件许可不替代宝石切型来源本身的权利。该许可属于“源码可见、限制使用”，不是 OSI 定义的开源许可；项目名称 OpenGemCutting 不代表新内容仍按 MIT 授权。
 
@@ -19,6 +19,6 @@
 
 缺陷报告、原创说明与设计建议仍可提交。新代码贡献暂不按“Fork 后即可提交代码”办理；先由维护者就准确代码范围确认贡献者有权授权，并取得发布所需书面许可。旧贡献不会因本页被视为同意新条款。Companion 的贡献提交流程应遵守 [贡献说明](../../.github/CONTRIBUTING.md)，既有 MIT fork 的权利保留。
 
-发布前应由熟悉适用法域的软件许可专业人士复核：旧 MIT 与新原创内容的边界、外部贡献、LGPL 构建交付、商业使用定义及贡献条款。维护者确认条款和具体候选提交后，再按既有流程做完整发布检查、公告和推送；本次候选不修改线上版本，也不追溯禁止旧版本商用／分发。
+发布前应由熟悉适用法域的软件许可专业人士复核：旧 MIT 与新原创内容的边界、外部贡献、LGPL 构建交付、商业使用定义及贡献条款。本次 v2.1.1 是许可与文档发布，不修改应用功能，也不追溯禁止旧版本商用／分发。发布记录列明验证结果；维护者确认不等于已经完成法律专业审查。
 
 参考依据：[MIT 原文](https://opensource.org/license/mit)、[OSI 开源定义](https://opensource.org/osd)、[GitHub 仓库许可说明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)、[GitHub Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)。

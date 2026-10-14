@@ -10,7 +10,7 @@
 
 A source-available gemstone faceting workbench. Design through conversation, refine every cut.
 
-> **未发布许可迁移候选 / Unreleased licensing transition:** 新原创内容拟限个人非商业自用，禁止商用与二次分发；包括接单设计及商业生产。旧版 MIT 授权和第三方许可继续有效，公共 GitHub 的站内 fork 权利保留。New original material is intended for personal non-commercial use only, without redistribution. Earlier MIT grants and third-party licenses remain valid. See [许可范围 / Licensing scope](docs/legal/LICENSING.md).
+> **v2.1.1 许可迁移 / Licensing transition:** 新原创内容限个人非商业自用，禁止商用与二次分发；包括接单设计及商业生产。旧版 MIT 授权和第三方许可继续有效，公共 GitHub 的站内 fork 权利保留。New original material first released under the new license is for personal non-commercial use only, without redistribution. Earlier MIT grants and third-party licenses remain valid. See [许可范围 / Licensing scope](docs/legal/LICENSING.md).
 
 [![Version](https://img.shields.io/badge/version-2.1.0-ed225d?style=flat-square)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-Personal%20Noncommercial-222222?style=flat-square)](LICENSE)

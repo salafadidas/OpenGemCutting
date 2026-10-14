@@ -72,4 +72,4 @@
 - `tmp/`、`output/`、`dist/` 与本机依赖不进入版本控制。长期文档资产放在 `docs/`，公开静态资源放在 `public/`。
 - 每次发布前运行敏感信息扫描、依赖审计、`npm run check`、`npm run build:pages` 与浏览器验收；确认 GitHub Pages、手册下载和静态资源均可访问。
 
-- 许可迁移候选的范围以 `docs/legal/LICENSING.md` 为准：不追溯取消旧 MIT，不覆盖第三方许可；新受限代码的公开贡献须先取得对应书面许可，Companion 不得将贡献引导视为分发授权。
+- 许可迁移的范围以 `docs/legal/LICENSING.md` 为准：不追溯取消旧 MIT，不覆盖第三方许可；新受限代码的公开贡献须先取得对应书面许可，Companion 不得将贡献引导视为分发授权。
