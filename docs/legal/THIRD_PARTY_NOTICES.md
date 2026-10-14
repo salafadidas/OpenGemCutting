@@ -21,6 +21,10 @@ Test samples in `src/domain/formats/fixtures/`: `smallest-square.asc` is Smalles
 
 The catalog covers 27 source-defined outline categories. Inclusion requires exact 96-index compatibility, valid final geometry, JSON round-trip stability and unique final cutting planes; these checks do not imply a guarantee of cutting results or aesthetic quality. The archive’s Open-design declaration is recorded as source provenance, not replaced with an independent licensing claim.
 
-The project MIT License covers OpenGemCutting's code and original documentation; it does not override authorship, attribution or any separate rights attached to a named third-party faceting design. Personal contact details present in source-file notes are intentionally omitted from the bundled normalized records.
+The project license applies only within its stated scope. Earlier MIT grants and all separate licenses remain effective; the restricted license does not override authorship, attribution or rights in a named third-party design. See [licensing scope](LICENSING.md) and the [legacy MIT notice](LEGACY_MIT_LICENSE.txt). Personal contact details present in source-file notes are intentionally omitted from the bundled normalized records.
 
 Consult each installed package's metadata, preset source page or upstream repository for exact notices before redistributing a release bundle. Project branding and original artwork are not third-party software dependencies and are not automatically licensed as trademarks by any future code license.
+
+## Previously released project and contributor material
+
+Project material released under MIT before the licensing transition retains its MIT grant and copyright notices. This includes contributions by EthanSMC in commits `fb9b7fb` and `293a9b9` (WebGPU renderer, scheduling, shader, tests and documentation). The complete historical project notice is retained in [LEGACY_MIT_LICENSE.txt](LEGACY_MIT_LICENSE.txt); this transition does not claim their consent to new restrictions. New notices never erase upstream licenses.

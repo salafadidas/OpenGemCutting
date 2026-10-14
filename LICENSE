@@ -1,21 +1,96 @@
-MIT License
+OpenGemCutting Personal Non-Commercial License 1.0
+Copyright (c) 2026 Yuyou. All rights reserved in Covered Material.
 
-Copyright (c) 2026 Yuyou and OpenGemCutting contributors
+1. Scope and earlier grants
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This license applies only to original OpenGemCutting code and documentation
+first distributed under this license by its copyright holder ("Covered
+Material"). It applies prospectively from that distribution, not retroactively.
+It does not cancel, replace or narrow any license previously granted for the
+same material. In particular, material already released under MIT, including
+OpenGemCutting v2.1.0 and earlier releases and MIT-licensed contributor changes,
+remains available under that MIT grant. See docs/legal/LEGACY_MIT_LICENSE.txt
+and docs/legal/LICENSING.md. Identical copies of earlier MIT material do not
+become restricted merely by appearing in this repository or in a later build.
+New original additions may be Covered Material; an earlier MIT grant does not
+by itself grant rights in those additions.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Third-party code, libraries, fonts, laboratory modules, design data and other
+separately licensed material are excluded. Their own notices and licenses
+control, including any applicable rights to modify, replace, reverse engineer
+for debugging modifications, or redistribute those components. Do not remove
+their notices. See docs/legal/THIRD_PARTY_NOTICES.md.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. Limited permission
+
+Subject to this license, you may download, install, run, study and privately
+modify Covered Material solely for your own personal, non-commercial use.
+You may make backup copies and use it on devices you control, solely for that
+permitted purpose. This permission is non-exclusive, worldwide, royalty-free
+and non-transferable. Retain this license and all applicable notices in your
+private copies. No other rights are granted by this license.
+
+3. No commercial use
+
+You may not use Covered Material for commercial advantage or monetary
+compensation, directly or indirectly. Prohibited uses include business or
+professional production, an employer's internal operations, paid design work,
+commissioned services, manufacturing or designing gems or other goods for sale,
+selling or licensing the software, advertising-supported services, paid
+training using the software, and hosted, SaaS or API services for third parties.
+A business use does not become personal use because access is free or the user
+is a sole trader. A separate written license is required for these uses.
+
+4. No redistribution or third-party access
+
+You may not publish, distribute, sublicense, sell, rent, lend, share or otherwise
+make Covered Material available to another person, in original or modified
+form, as source, binaries, bundles, containers, packages, mirrors or derivative
+products. You may not offer third-party access to an installation or hosted
+service. Private backups under section 2 are permitted.
+
+This section does not override non-waivable legal rights, earlier license
+grants, separately licensed components, or rights granted through a hosting
+platform's applicable terms. If the copyright holder publishes material on
+GitHub publicly, the viewing and forking permissions granted under GitHub's
+terms remain applicable within that service. This exception does not grant
+additional off-platform redistribution, commercial use or hosting rights.
+A public GitHub repository therefore cannot provide an absolute no-fork rule.
+
+5. Your designs and contributions
+
+This license does not claim ownership of your independently created designs,
+project data, drawings, exported cutting instructions or rendered images.
+Outputs are not Covered Material merely because the software created them,
+unless they contain Covered Material or separately licensed content. Personal,
+non-commercial sharing of your own outputs is permitted; it does not authorize
+commercial use of the software under section 3 or override third-party design
+rights. Share an official project link instead of redistributing the software.
+
+This license does not authorize publishing project code to contribute it.
+Reports and original descriptions are welcome. Before submitting code, obtain
+a separate written contribution permission covering the exact submission and
+maintainer distribution rights. Earlier contributions retain their original
+licenses; no copyright assignment or new contributor consent is inferred.
+
+6. Termination and exceptions
+
+Permission for Covered Material terminates if you breach these conditions.
+Stop the prohibited use and delete your unauthorized copies, except as required
+by law or permitted by another valid license. Termination here does not revoke
+an earlier MIT grant or a third-party license. Separate written permissions may
+be requested from the copyright holder through the official project contact.
+This license grants no trademark rights. Mandatory legal exceptions prevail.
+
+7. Disclaimer
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, COVERED MATERIAL IS PROVIDED
+"AS IS", WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY AND NONINFRINGEMENT.
+THE COPYRIGHT HOLDERS SHALL NOT BE LIABLE FOR CLAIMS, DAMAGES OR OTHER LIABILITY
+ARISING FROM USE OF COVERED MATERIAL, WHETHER IN CONTRACT, TORT OR OTHERWISE.
+Nothing excludes liability that cannot lawfully be excluded.
+
+This is a source-available, restricted-use license, not an OSI-approved
+open-source license. This English text is the operative license; accompanying
+Chinese explanations are summaries only.

@@ -16,11 +16,12 @@ Installation instructions are in the [Companion lifecycle guide](../plugins/open
 - Bug 请提供最小复现、浏览器/系统信息、期望与实际结果；涉及几何时附上可公开的 JSON。
 - 新功能请先描述切磨场景、操作流程和可验收结果，再讨论实现。
 - 安全问题或疑似凭据泄露不要放进公开 Issue，按 `.github/SECURITY.md` 私下报告。
-- 提交贡献即表示你有权提供相关内容，并同意其按仓库的 MIT License 分发。
+- 本分支为未发布许可迁移候选，见 [许可范围](../docs/legal/LICENSING.md)。既有贡献继续保留原许可；新受限代码请先取得针对准确代码范围的书面贡献许可，不因提交自动推定版权转让或重新授权。
+- Reports and original descriptions remain welcome. Before publishing new restricted project code, obtain written permission covering the exact contribution and the maintainer’s right to distribute it under the proposed project license. Earlier MIT grants remain valid.
 
 ## Pull request workflow
 
-1. Fork 仓库并从 `main` 创建一个聚焦分支，避免夹带无关格式化或重构。
+1. 涉及新受限内容时先确认书面贡献许可；取得许可后再用 Fork／分支准备准确范围的贡献。已有 MIT 内容继续按其许可办理。避免夹带无关格式化或重构。
 2. 阅读 `AGENTS.md` 和 `docs/architecture/design-system.md`，保持 CUT 状态机、几何符号与视觉约定。
 3. 为领域行为增加或更新 Node.js 测试；可见界面变化附真实截图。
 4. 运行 `npm run check`，并在 PR 中写明命令结果和未覆盖风险。
