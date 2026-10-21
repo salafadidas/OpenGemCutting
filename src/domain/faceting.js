@@ -1,3 +1,4 @@
+import { validatePhysicalMetadata } from './physicalMetadata.js';
 import { validateRingCutMetadata } from "./ringCut.js";
 import { validateGridCutMetadata } from "./gridCut.js";
 import { validateCompositeToolMetadata } from "./compositeTools.js";
@@ -1066,6 +1067,7 @@ export function validateFacetingDocument(document) {
     };
   }
   errors.push(...validateDocumentHeader(document), ...validateDocumentExtensions(document));
+  try { validatePhysicalMetadata(document.metadata); } catch (error) { addValidationError(errors, "$.metadata", error.message); }
   try {
     const gear = normalizeIndexGear(document.indexGear);
     if (!isPlainObject(document.indexGear) || gear.zeroAlias !== document.indexGear.zeroAlias

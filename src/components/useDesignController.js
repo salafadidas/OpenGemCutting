@@ -1,3 +1,4 @@
+import { inspectSize, prepareSize } from '../application/sizeWeight.js';
 import { getLocale, t } from '../i18n/locale.js';
 import { useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
@@ -136,6 +137,14 @@ export function useDesignController({
   const handle = async (name, args, request) => {
     validateTool(name, args);
     if (name === 'design_read') return read();
+    if (name === 'design_measure') return { projectId, revision, ...inspectSize(document, args.sizing) };
+    if (name === 'design_set_size') {
+      assertWrite(args);
+      if (!session.canSetPhysicalMetadata) throw designError('WORKSPACE_BUSY', '请先结束当前 CUT 会话。');
+      const prepared = prepareSize(document, args.sizing);
+      flushSync(() => setHistory(executeFacetingCommand(history, prepared.command)));
+      return controllerRef.current.read();
+    }
     if (name === 'design_plan') {
       assertWrite(args);
       const plan = planDesign(document, args.operations);

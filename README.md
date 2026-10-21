@@ -18,7 +18,7 @@ A source-available gemstone faceting workbench. Design through conversation, ref
 
 > **v2.1.1 许可迁移 / Licensing transition:** 新原创内容限个人非商业自用，禁止商用与二次分发；包括接单设计及商业生产。旧版 MIT 授权和第三方许可继续有效，公共 GitHub 的站内 fork 权利保留。New original material first released under the new license is for personal non-commercial use only, without redistribution. Earlier MIT grants and third-party licenses remain valid. See [许可范围 / Licensing scope](docs/legal/LICENSING.md).
 
-[![Version](https://img.shields.io/badge/version-2.1.3-ed225d?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.2.0-ed225d?style=flat-square)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-Personal%20Noncommercial-222222?style=flat-square)](LICENSE)
 [![Browser](https://img.shields.io/badge/browser-local_first-38755d?style=flat-square)](#start)
 
@@ -54,6 +54,12 @@ A source-available gemstone faceting workbench. Design through conversation, ref
 <td><b>理解每一道工序</b><br>逐刀或逐组回放；暂停、观察，再回到编辑。</td>
 </tr>
 </table>
+
+## 2.2.0 · 2026-10-22
+
+新增尺寸／重量换算、可命名材质、加工几何参考图与中英文加工 PDF。试算可往返保留，采用尺寸可撤销，切割助手提供只读入口；不含设备平台升降适配。中英文手册更新为 40 页。
+
+Adds finished-size and weight calculations, named materials, geometric machining references and bilingual PDF export. Calculator trials survive panel switching; adopting a size is undoable. Machine platform adaptation is outside this release. Both manuals now have 40 pages.
 
 ## 2.1.0 · 2026-10-08
 
@@ -181,7 +187,7 @@ npm run check:mcp      # 加上 MCP 的连接与版本检查
 - **请保留设计文件。** 项目保存在当前浏览器与地址下；更换浏览器、端口或清理浏览器数据不会自动迁移项目。重要设计请导出 JSON。
 - **保留真实原石形状。** 支持闭合 OBJ，保留凹槽、孔和分离组件；导入上限与交换限制见 [文件与设计边界](docs/limits.md)。
 - **仿真帮助比较。** 显示效果不代表实际切磨收益或材料光学等级。实验室的专业界面目前为中文。
-- **当前版本 2.1.3。** 版本记录见 [CHANGELOG](CHANGELOG.md)，欢迎按 [Issues](https://github.com/yuyou-dev/OpenGemCutting/issues) 反馈。
+- **当前版本 2.2.0。** 版本记录见 [CHANGELOG](CHANGELOG.md)，欢迎按 [Issues](https://github.com/yuyou-dev/OpenGemCutting/issues) 反馈。
 - **支持按实测说明。** 本机功能已通过设计师验收；跨平台、浏览器与线上状态见 [支持与验收](docs/validation.md)，不以源码版本推断站点已更新。
 
 ## 一起完善这张工作台

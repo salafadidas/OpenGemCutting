@@ -287,3 +287,13 @@ MCP 的只读 Jump 查询由 `application/designJump.js` 编排；草稿解析�
 ## 技术支持浮层
 
 技术支持属于应用展示状态，由根级 `TechnicalSupportProvider` 管理，不写入设计实体、CUT 会话或历史。打开时背景 inert，编辑器使用既有 `interactionPaused` 暂停交互、预览任务和回放；项目创建与设计桥接沿用忙碌阻断。关闭恢复原会话、参数、观察模式与历史，不能提交或取消草稿。Escape 仅关闭支持浮层；帮助入口先关闭帮助再打开支持，避免嵌套焦点陷阱。外部链接另开页面。诊断报告来自显式允许的环境字段，与文档状态及错误堆栈隔离。
+
+## 成品尺寸与加工读数（2026-10-21）
+
+设计目的：在同一工作台确定毫米尺寸与估计重量，交付逐面几何参考。只读面板消费 evaluateDocument 的完整已提交实体；隐藏层、CUT 草稿及助手施工位置不改变测量。canSetPhysicalMetadata 仅 idle 为 true；采用尺寸还要求无凹切草稿、非光学／助手模式及可保存的活动工作区。打开、试算、关闭不派发 CUT 事件，不增加第五态；提交经 application/sizeWeight 的统一文档替换命令，单次撤销，stock 与全部切面不变。MCP 复用相同 prepare 操作并验证项目/revision。
+
+metadata.physicalScale 保存毫米尺度；metadata.sizeWeight 保存 material 和正数 sg。已有 stock.source 的真实比例不得覆盖。不保存设备、装夹、标定或平台升降属性。
+
+加工表从 buildCuttingSequence 取得身份／顺序，再按 summarizeEffectiveFacets 过滤最终有效平面，逐成员显示角度、分度、法向切入及有符号平面偏移。凹切不输出普通平面读数；无毫米尺度显示缺省符号。助手入口定位到同一 facetId 对应的下一刀并暂停播放，不编辑 CUT；临时隐藏导致该面不在演示序列时说明原因。原助手序列不变。几何参考不能解释为机器平台高度或升降量。
+
+尺寸与加工面板在同一次报告查看期间共用临时试算快照（基准、输入、材质名称／自定义选择、SG、腰厚单位）；切换面板保留，关闭或采用后销毁，不写历史或 CUT 状态。加工表始终使用已采用尺寸并显式展示该尺度；自定义材质名称随 sizeWeight 保存。导出加工 PDF 跟随界面语言，分度复用 displayIndex，不套用毫米精度。

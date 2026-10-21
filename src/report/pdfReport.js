@@ -1,3 +1,4 @@
+import { MATERIAL_SG, measureSize, sizeAtScale } from '../domain/sizeWeight.js';
 import { createTranslator } from '../i18n/format.js';
 import { getMeshViewGeometry } from "../domain/meshDisplay.js";
 
@@ -804,7 +805,7 @@ function drawConcavePage(page, model, descriptor, assets) {
  * print 1 em wide. The default glyphs carry their true advance; CJK is unchanged. */
 export const CJK_FONT_FEATURES = Object.freeze({ locl: false });
 // fontkit writes its resolved features back into the object it receives.
-const cjkFontFeatures = () => ({ ...CJK_FONT_FEATURES });
+export const cjkFontFeatures = () => ({ ...CJK_FONT_FEATURES });
 
 export async function createFacetReportPdfBytes(input, resources) {
   const t = createTranslator(input.locale ?? "zh-CN");
@@ -824,6 +825,22 @@ export async function createFacetReportPdfBytes(input, resources) {
     else if (descriptor.kind === "concave") drawConcavePage(page, model, descriptor, assets);
     else drawGroupPage(page, model, descriptor, assets);
   });
+  if (input.document.metadata?.sizeWeight && model.physical) {
+    const measures = measureSize(input.document, model.solid);
+    const material = input.document.metadata.sizeWeight;
+    const values = sizeAtScale(measures, model.physical.millimetersPerModelUnit, material.sg);
+    const page = pdf.addPage([A4.width, A4.height]);
+    drawHeader(page, model, assets, t('尺寸与重量'), pdf.getPageCount());
+    drawTextTop(page, t('尺寸与重量'), MARGIN, 88, { font: bold, size: 18, color: rgbOf(rgb, COLOR.ink) });
+    const rows = [['成品长度 L', values.length, 'mm'], ['成品宽度 W', values.width, 'mm'], ['总高 H', values.height, 'mm'], ['冠高 C', values.crown, 'mm'], ['亭深 P', values.pavilion, 'mm'], ['腰厚 G', values.girdle, 'mm'], ['台面长 T', values.tableLength, 'mm'], ['台面宽 U', values.tableWidth, 'mm'], ['体积', values.volume, 'mm³'], ['估算成品重量', values.weight, 'ct']];
+    rows.forEach(([label,value,unit], i) => {
+      drawTextTop(page, t(label), MARGIN, 140+i*30, { font, size: 11, color: rgbOf(rgb, COLOR.ink) });
+      drawTextTop(page, `${value == null ? '—' : value.toFixed(3)} ${unit}`, 300, 140+i*30, { font, size: 11, color: rgbOf(rgb, COLOR.ink) });
+    });
+    drawTextTop(page, `${MATERIAL_SG.some(([name]) => name === material.material) ? t(material.material) : material.material} · SG ${material.sg}`, MARGIN, 470, { font, size: 11, color: rgbOf(rgb, COLOR.ink) });
+    if (measures.girdleStatus === 'uneven') drawTextTop(page, t('腰线不平齐：冠高、亭深与腰厚采用腰线包络。'), MARGIN, 530, { font, size: 9, color: rgbOf(rgb, COLOR.muted) });
+    drawTextTop(page, t('比重预设仅作估算，可按实测修改；未提供真实原石重量，不计算出成率。'), MARGIN, 500, { font, size: 9, color: rgbOf(rgb, COLOR.muted) });
+  }
   pdf.setTitle(t("{0} - 切磨技术报告", [model.name]));
   pdf.setSubject(`Facet ${model.indexTeeth} index planar instructions, concave tools and measured vector drawings`);
   pdf.setAuthor(t("SUVA 切磨工作台"));

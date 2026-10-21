@@ -2,6 +2,127 @@
   "apiVersion": "1.0",
   "tools": [
     {
+      "name": "design_measure",
+      "description": "Read committed dimensions, ratios, physical weight estimate and geometric facet readings. Optional sizing is a read-only what-if. Geometric depths are not machine travel.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "sizing": {
+            "type": "object",
+            "properties": {
+              "basis": {
+                "type": "string",
+                "enum": [
+                  "length",
+                  "width",
+                  "height",
+                  "crown",
+                  "pavilion",
+                  "weight"
+                ]
+              },
+              "value": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "sg": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "material": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "basis",
+              "value",
+              "sg"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "sessionId"
+        ],
+        "additionalProperties": false
+      },
+      "mutates": false
+    },
+    {
+      "name": "design_set_size",
+      "description": "Adopt physical size and SG as one undoable metadata command. Requires idle current revision. A physically scaled stock cannot be resized.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "projectId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "sizing": {
+            "type": "object",
+            "properties": {
+              "basis": {
+                "type": "string",
+                "enum": [
+                  "length",
+                  "width",
+                  "height",
+                  "crown",
+                  "pavilion",
+                  "weight"
+                ]
+              },
+              "value": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "sg": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "material": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "basis",
+              "value",
+              "sg"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "sessionId",
+          "projectId",
+          "revision",
+          "sizing"
+        ],
+        "additionalProperties": false
+      },
+      "mutates": true
+    },
+    {
       "name": "design_read",
       "description": "Read the bound project, committed CUT groups, revision, edit capabilities and save status. Read this before planning changes.",
       "inputSchema": {

@@ -1,11 +1,15 @@
 import { t } from '../i18n/locale.js';
-import { IconPlayerPlay, IconPlayerPause, IconPlayerSkipBack, IconPlayerSkipForward, IconPlayerTrackNext, IconPlayerTrackPrev, IconX, IconRefresh } from "@tabler/icons-react";
+import { IconPlayerPlay, IconPlayerPause, IconPlayerSkipBack, IconPlayerSkipForward, IconPlayerTrackNext, IconPlayerTrackPrev, IconX, IconRefresh, IconRuler2, IconListDetails } from "@tabler/icons-react";
 import { displayIndex } from "../domain/faceting.js";
 import { TechnicalPreview } from "./TechnicalPreview.jsx";
 
-export function CuttingAssistantBar({ name, onExit }) {
+export function CuttingAssistantBar({ name, onExit, onSize, onMachining }) {
   return <header className="app-header floating-toolbar is-optics-toolbar is-inspector-closed is-assistant-toolbar" aria-label={t("切割助手命令条")}>
     <strong className="assistant-project-name">{name}</strong>
+    <div className="assistant-report-actions">
+      <button type="button" className="secondary-button assistant-report-button" onClick={onSize}><IconRuler2 size={16} aria-hidden="true" /><span>{t("尺寸与重量")}</span></button>
+      <button type="button" className="secondary-button assistant-report-button" onClick={onMachining}><IconListDetails size={16} aria-hidden="true" /><span>{t("加工读数")}</span></button>
+    </div>
     <button type="button" className="optics-exit-button" onClick={onExit}><IconX size={17} /><span>{t("退出助手")}</span></button>
   </header>;
 }
