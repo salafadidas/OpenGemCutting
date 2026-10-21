@@ -74,6 +74,8 @@ export function Header({
   onOpenHelp,
   onOpenAssistant,
   onOpenMeetAudit,
+  onOpenSize,
+  onOpenMachining,
   canUndo,
   canRedo,
   projectName,
@@ -268,6 +270,8 @@ export function Header({
             <IconTable size={15} />
             <span>{t("刻面表")}</span>
           </button>
+          <button type="button" role="menuitem" onClick={(event) => runMenuAction(event, onOpenSize)}><IconTable size={15} /><span>{t("尺寸与重量")}</span></button>
+          <button type="button" role="menuitem" onClick={(event) => runMenuAction(event, onOpenMachining)}><IconTable size={15} /><span>{t("加工读数")}</span></button>
           <button type="button" role="menuitem" onClick={(event) => runMenuAction(event, onOpenSettings)}>
             <IconSettings size={15} />
             <span>{t("设置")}</span>

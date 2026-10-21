@@ -133,7 +133,10 @@ export const OPERATION_SCHEMA = object(
 );
 const scope = { sessionId: string, projectId: string, revision: string };
 const readScope = { sessionId: string };
+export const SIZE_INPUT_SCHEMA = object({ basis: { type: 'string', enum: ['length', 'width', 'height', 'crown', 'pavilion', 'weight'] }, value: { ...number, exclusiveMinimum: 0 }, sg: { ...number, exclusiveMinimum: 0 }, material: string }, ['basis', 'value', 'sg']);
 export const DESIGN_TOOLS = [
+  ['design_measure', 'Read committed dimensions, ratios, physical weight estimate and geometric facet readings. Optional sizing is a read-only what-if. Geometric depths are not machine travel.', object({ ...readScope, sizing: SIZE_INPUT_SCHEMA }, ['sessionId']), false],
+  ['design_set_size', 'Adopt physical size and SG as one undoable metadata command. Requires idle current revision. A physically scaled stock cannot be resized.', object({ ...scope, sizing: SIZE_INPUT_SCHEMA }, [...Object.keys(scope), 'sizing']), true],
   [
     'design_read',
     'Read the bound project, committed CUT groups, revision, edit capabilities and save status. Read this before planning changes.',

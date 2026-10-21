@@ -3206,7 +3206,11 @@ body:has(.project-save-pending) .toast { bottom: 76px; }
 .is-assistant-focus .viewport-column { background: #fff; }
 .is-assistant-focus .gem-viewport { position:absolute; inset:0 var(--assistant-rail) 150px 0; width:auto; height:auto; }
 .is-assistant-focus .gem-viewport__interaction-hints { display:none; }
-.app-header.is-assistant-toolbar { gap:24px; }
+.app-header.is-assistant-toolbar { gap:12px; }
+.assistant-report-actions { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.assistant-report-button.secondary-button { min-height:var(--control-h); height:var(--control-h); padding:0 10px; gap:6px; font-size:12px; white-space:nowrap; flex-shrink:0; }
+.assistant-report-button svg { flex-shrink:0; }
+.app-header.is-assistant-toolbar .optics-exit-button { flex-shrink:0; }
 .assistant-project-name { font-size:14px; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .assistant-inspector { position:absolute; right:0; top:0; bottom:0; width:var(--assistant-rail); padding:24px 28px; overflow-y:auto; border-left:1px solid var(--hairline); background:#fff; display:flex; flex-direction:column; gap:18px; }
 .assistant-operation > span { color:var(--muted); font-size:14px; }

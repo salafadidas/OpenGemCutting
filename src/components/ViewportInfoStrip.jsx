@@ -51,7 +51,7 @@ function ToolReport({ sessionActive, region, indexTeeth, tool, hood, ring, repor
  * instructions and the active tool's report. View state only; it reads the
  * same solid, instruction groups and tool report as the rest of the editor.
  */
-export function ViewportInfoStrip({
+export function ViewportInfoStrip({ onOpenSize, onOpenMachining,
   tab, onTabChange, collapsed, onToggleCollapsed, status,
   solid, activeOperationId, previewOperationId, highlightOperationId, frostedFaceIds,
   instructionGroups, toolActive = false, ...toolProps
@@ -89,7 +89,7 @@ export function ViewportInfoStrip({
               ))}
             </div>
           ) : tab === "instructions" ? (
-            <div className="info-strip-instructions"><CutInstructions groups={instructionGroups} compact /></div>
+            <div className="info-strip-instructions"><div className="size-shortcut"><button type="button" className="secondary-button size-tool-button" onClick={onOpenSize}>{t("尺寸与重量")}</button><button type="button" className="secondary-button size-tool-button" onClick={onOpenMachining}>{t("加工读数")}</button></div><CutInstructions groups={instructionGroups} compact /></div>
           ) : <ToolReport {...toolProps} />}
         </div>
       )}

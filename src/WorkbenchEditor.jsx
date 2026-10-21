@@ -1,3 +1,5 @@
+import { SizeMachiningDialog } from './components/SizeMachiningDialog.jsx';
+import { prepareSize } from './application/sizeWeight.js';
 import { MeetAuditDialog } from './components/MeetAuditDialog.jsx';
 import { ringCutFromFacets } from "./domain/ringCut.js";
 import { gridCutFromFacets, gridPrimaryIndex } from "./domain/gridCut.js";
@@ -1336,6 +1338,23 @@ export function WorkbenchEditor({ initialDocument, designControllerRef, projectI
 
   const depthControlMax = Math.max(machineStock.size * 1.5, depth * 1.25, 1);
 
+  const physicalWriteReason = !cutSession.canSetPhysicalMetadata || concaveSession
+    ? "请先保存或放弃当前切割，再采用尺寸。"
+    : opticsActive || cuttingAssistantActive ? "请退出光学或切割助手，再采用尺寸。"
+      : interactionPaused || !visible ? "当前工作区不可写入。"
+        : ['conflict', 'error'].includes(projectStatus.state) ? "请先处理项目保存失败或冲突。" : "";
+  const applyPhysical = (prepare, input) => {
+    if (physicalWriteReason) throw new Error(physicalWriteReason);
+    const base = document, result = prepare(base, input);
+    setHistory(current => current.present === base ? executeFacetingCommand(current, result.command) : current);
+    notify("尺寸已保存，可撤销。");
+  };
+  const showMachiningFacet = facetId => {
+    const at = cuttingReplay?.steps.findIndex(step => step.facetId === facetId) ?? -1;
+    if (at < 0) { notify("该面暂时隐藏，请恢复显示后在助手中查看。"); return; }
+    playback.setPlaying(false); setAssistantPosition(at); setModal(null);
+  };
+
   const replaceParameterGroup = (parameterGroup) => {
     if (!cutSession.canEditParameterGroups) return false;
     try {
@@ -1563,7 +1582,7 @@ export function WorkbenchEditor({ initialDocument, designControllerRef, projectI
           <LanguageSelector /><TechnicalSupportButton />
         </div>
           {cuttingAssistantActive && cuttingReplay ? (
-            <CuttingAssistantBar name={document.name} onExit={() => changeViewportMode("edit")} />
+            <CuttingAssistantBar onSize={() => setModal("size-weight")} onMachining={() => setModal("machining")} name={document.name} onExit={() => changeViewportMode("edit")} />
           ) : (
           <Header
             projectName={document.name}
@@ -1599,6 +1618,8 @@ export function WorkbenchEditor({ initialDocument, designControllerRef, projectI
             onOpenHelp={() => setModal("help")}
             onOpenAssistant={() => setAssistantOpen(true)}
             onOpenMeetAudit={() => setModal("meet-audit")}
+            onOpenSize={() => setModal("size-weight")}
+            onOpenMachining={() => setModal("machining")}
             viewMode={opticsActive ? opticsViewMode : viewMode}
             onViewMode={opticsActive ? setOpticsViewMode : setViewMode}
             displayMode={renderMode}
@@ -1903,6 +1924,8 @@ export function WorkbenchEditor({ initialDocument, designControllerRef, projectI
           </div>
           {viewportMode === "edit" ? (
             <ViewportInfoStrip
+              onOpenSize={() => setModal("size-weight")}
+              onOpenMachining={() => setModal("machining")}
               tab={infoTab}
               onTabChange={setInfoTab}
               collapsed={infoCollapsed}
@@ -2126,6 +2149,7 @@ export function WorkbenchEditor({ initialDocument, designControllerRef, projectI
         </Modal>
       ) : null}
 
+      {modal === "size-weight" || modal === "machining" ? <SizeMachiningDialog initialView={modal} document={document} canApply={!physicalWriteReason} blockedReason={physicalWriteReason} onApply={input => { applyPhysical(prepareSize, input); setModal(null); }} onClose={() => setModal(null)} onSelectFacet={cuttingAssistantActive ? showMachiningFacet : undefined} /> : null}
       {modal === "meet-audit" ? <MeetAuditDialog document={document} onClose={() => setModal(null)} /> : null}
 
       {modal === "help" ? (
